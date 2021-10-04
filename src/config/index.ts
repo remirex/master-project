@@ -12,4 +12,11 @@ if (envFound.error) {
 
 export default {
   port: parseInt(process.env.PORT as string, 10),
-}
+
+  /**
+   * used by winston logger
+   */
+  logs: {
+    level: process.env.LOG_LEVEL || 'silly',
+  },
+};

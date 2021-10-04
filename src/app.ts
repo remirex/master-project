@@ -1,6 +1,7 @@
 import express from 'express';
 
 import config from './config';
+import Logger from '../src/loaders/logger';
 
 const app = express();
 
@@ -14,29 +15,30 @@ require('./loaders').default({ expressApp: app });
 
 const server = app
   .listen(config.port, function () {
-  console.log(`Server listening on port: ${config.port}`);})
+    Logger.info(`Webserver is ready and listening on port ${config.port}`);
+  })
   .on('error', err => {
-  console.log(err);
-  process.exit(1);
-});
+    Logger.error(err);
+    process.exit(1);
+  });
 
 // quit on ctrl-c when running docker in terminal
 process.on('SIGINT', function onSigint() {
-  console.log('');
+  Logger.info('Got SIGINT (aka ctrl-c in docker). Graceful shutdown ', new Date().toISOString());
   shutdown();
 });
 
 // quit properly on docker stop
 process.on('SIGTERM', function onSigterm() {
-  console.log();
+  Logger.info('Got SIGTERM (docker container stop). Graceful shutdown ', new Date().toISOString());
   shutdown();
 });
 
 // shut down server
 function shutdown() {
-  server.close(function onServerClosed(err: any) {
+  server.close(function onServerClosed(err) {
     if (err) {
-      console.log(err);
+      Logger.error(err);
       process.exitCode = 1;
     }
     process.exit();
