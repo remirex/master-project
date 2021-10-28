@@ -19,9 +19,14 @@ export default async ({ expressApp }: any) => {
     model: require('../models/brand').default,
   };
 
+  const categoryModel = {
+    name: 'categoryModel',
+    model: require('../models/category').default,
+  };
+
   await dependencyInjectorLoader({
     mongoConnection,
-    models: [userModel, brandModel],
+    models: [userModel, brandModel, categoryModel],
   });
   Logger.info('Dependency Injector loaded');
 
