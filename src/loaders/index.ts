@@ -16,7 +16,7 @@ export default async ({ expressApp }: any) => {
 
   await dependencyInjectorLoader({
     mongoConnection,
-    models: [userModel]
+    models: [userModel],
   });
   Logger.info('Dependency Injector loaded');
 
