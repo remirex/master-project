@@ -3,6 +3,16 @@ export interface ICategory {
   name: string;
   slug: string;
   description: string;
-  icon: string;
-  image: string;
+}
+
+export interface ICreateCategoryDTO {
+  name: string;
+  description: string;
+}
+
+export interface IUpdateCategoryDTO {
+  name: string;
+  description: string;
+  featured: boolean;
+  menu: boolean;
 }

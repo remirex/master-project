@@ -1,33 +1,48 @@
 import mongoose from 'mongoose';
+import slugify from 'slugify';
+
 import { ICategory } from '../interfaces/ICategory';
 
-const categorySchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    index: true,
+const categorySchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      index: true,
+    },
+    slug: {
+      type: String,
+    },
+    description: {
+      type: String,
+      required: true,
+      index: true,
+    },
+    featured: {
+      type: Boolean,
+      default: false,
+    },
+    menu: {
+      type: Boolean,
+      default: false,
+    },
   },
-  slug: {
-    type: String,
-    required: true,
+  {
+    timestamps: true,
+    toJSON: {
+      virtuals: true,
+      transform(doc, ret) {
+        delete ret.__v;
+        delete ret._id;
+      },
+    },
   },
-  description: {
-    type: String,
-    required: true,
-    index: true,
-  },
-  featured: {
-    type: Boolean,
-    default: false,
-  },
-  icon: {
-    type: String,
-    required: true,
-  },
-  image: {
-    type: String,
-    required: true,
-  },
+);
+
+categorySchema.pre('save', async function (done) {
+  const slugCatName = slugify(this.get('name'), { lower: true });
+  this.set('slug', slugCatName);
+  done();
 });
 
 export default mongoose.model<ICategory & mongoose.Document>('Category', categorySchema);

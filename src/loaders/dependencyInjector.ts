@@ -7,6 +7,8 @@ export default ({ mongoConnection, models }: { mongoConnection: any; models: { n
     models.map(m => {
       Container.set(m.name, m.model);
     });
+
+    Container.set('logger', LoggerInstance);
   } catch (err) {
     LoggerInstance.error('Error on dependency injector loader: ', err);
     throw err;

@@ -3,6 +3,8 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 
 import errorMiddleware from '../api/middlewares/error';
+import config from '../config';
+import routes from '../api';
 
 export default ({ app }: { app: express.Application }) => {
   /**
@@ -31,6 +33,9 @@ export default ({ app }: { app: express.Application }) => {
 
   // Middleware that transforms the raw string of req.body into json
   app.use(bodyParser.json());
+
+  // Load routes
+  app.use(config.api.prefix, routes());
 
   // Error handler
   app.use(errorMiddleware);
