@@ -37,6 +37,6 @@ export default {
   },
 
   adminApi: {
-    prefix: '/api/admin/v1',
+    prefix: '/api/v1/admin',
   },
 };

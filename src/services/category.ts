@@ -1,6 +1,7 @@
 import { Inject, Service } from 'typedi';
 import slugify from 'slugify';
 import mongoose from 'mongoose';
+import { unlink } from 'fs';
 
 import { ICreateCategoryDTO, IUpdateCategoryDTO } from '../interfaces/ICategory';
 import CategoryWithThatNameAlreadyExistsException from '../api/exceptions/categories/CategoryWithThatNameAlreadyExistsException';
@@ -66,8 +67,43 @@ export default class CategoriesService {
     return true;
   }
 
+  public async uploadCategoryImage(fileName: any, categoryId: string, basePath: string) {
+    const isValidId = CategoriesService.isValid(categoryId);
+    if (!isValidId) throw new WrongObjectIdException();
+
+    const findCategory = await this.categoryModel.findById(categoryId);
+    if (!findCategory) throw new NotFoundException();
+
+    const category = await this.categoryModel.findByIdAndUpdate(
+      categoryId,
+      {
+        image: basePath + '' + fileName,
+      },
+      { new: true },
+    );
+    if (!category) throw new NotFoundException();
+
+    // unlink old file
+    const image = findCategory.image;
+    const separator = '/';
+    const oldFile = CategoriesService.splitStr(image, separator);
+    unlink(`public/uploads/${oldFile}`, err => {
+      if (err) this.logger.error(err);
+      this.logger.info(`Deleted file: ${oldFile}`);
+    });
+
+    return category;
+  }
+
   // helpers
   private static isValid(id: string) {
     return mongoose.Types.ObjectId.isValid(id);
+  }
+
+  private static splitStr(str, separator) {
+    // Function to split string
+    const string = str.split(separator);
+
+    return string[string.length - 1];
   }
 }

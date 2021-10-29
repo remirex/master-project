@@ -5,11 +5,12 @@ import { Logger } from 'winston';
 import CategoriesService from '../../../services/category';
 import { ICreateCategoryDTO, IUpdateCategoryDTO } from '../../../interfaces/ICategory';
 import bodyAdminRequest from '../../requests/admin';
+import middleware from '../../middlewares';
 
 const route = Router();
 
 export default (app: Router) => {
-  app.use('/admin/category', route);
+  app.use('/category', route);
 
   const logger: Logger = Container.get('logger');
   const categoryServiceInstance = Container.get(CategoriesService);
@@ -70,4 +71,20 @@ export default (app: Router) => {
       return next(err);
     }
   });
+
+  route.put(
+    '/image-upload/:id',
+    middleware.fileUpload.single('image'),
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const fileName = req.file?.filename;
+        const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`;
+        const categoryId = req.params.id;
+        const response = await categoryServiceInstance.uploadCategoryImage(fileName, categoryId, basePath);
+        return res.status(200).json(response);
+      } catch (err) {
+        return next(err);
+      }
+    },
+  );
 };
