@@ -1,0 +1,18 @@
+{
+  "entryFile": "src/app.ts",
+  "noImplicitAdditionalProperties": "throw-on-extras",
+  "controllerPathGlobs": ["src/services/category.ts"],
+  "spec": {
+    "outputDirectory": "public",
+    "basePath": "/api/v1",
+    "specVersion": 3,
+    "securityDefinitions": {
+      "jwt": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "JWT Authorization header using the Bearer scheme.\n\nEnter your token in the text input below.\n\n Example: \"12345abcdef\"\n\n Name: Authorization\n\nIn: header"
+      }
+    }
+  },
+  "ignore": ["**/node_modules/**"]
+}

@@ -10,7 +10,7 @@ import middleware from '../../middlewares';
 const route = Router();
 
 export default (app: Router) => {
-  app.use('/category', route);
+  app.use('/admin/category', route);
 
   const logger: Logger = Container.get('logger');
   const categoryServiceInstance = Container.get(CategoriesService);
@@ -80,7 +80,7 @@ export default (app: Router) => {
         const fileName = req.file?.filename;
         const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`;
         const categoryId = req.params.id;
-        const response = await categoryServiceInstance.uploadCategoryImage(fileName, categoryId, basePath);
+        const response = await categoryServiceInstance.uploadCategoryImage(fileName, categoryId, basePath, req.file!);
         return res.status(200).json(response);
       } catch (err) {
         return next(err);

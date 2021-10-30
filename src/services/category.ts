@@ -1,3 +1,4 @@
+import { Path, Body, Get, Post, Tags, Route, Put, Delete, UploadedFile, Request } from 'tsoa';
 import { Inject, Service } from 'typedi';
 import slugify from 'slugify';
 import mongoose from 'mongoose';
@@ -9,11 +10,18 @@ import CannotCreateRecordException from '../api/exceptions/CannotCreateRecordExc
 import NotFoundException from '../api/exceptions/NotFoundException';
 import WrongObjectIdException from '../api/exceptions/WrongObjectIdException';
 
+@Tags('Categories')
+@Route('/admin/category')
 @Service()
 export default class CategoriesService {
   constructor(@Inject('categoryModel') private categoryModel: Models.CategoryModel, @Inject('logger') private logger) {}
 
-  public async createCategory(createData: ICreateCategoryDTO) {
+  /**
+   * Create new category
+   * @param createData
+   */
+  @Post('/create')
+  public async createCategory(@Body() createData: ICreateCategoryDTO) {
     const slugOfCategory = slugify(createData.name);
     const category = await this.categoryModel.findOne({ slug: slugOfCategory });
     if (category) throw new CategoryWithThatNameAlreadyExistsException(createData.name);
@@ -24,6 +32,10 @@ export default class CategoriesService {
     return true;
   }
 
+  /**
+   * Return all categories from DB
+   */
+  @Get('/categories')
   public async getAllCategories() {
     const categories = await this.categoryModel.find();
     if (!categories) throw new NotFoundException();
@@ -31,7 +43,12 @@ export default class CategoriesService {
     return categories;
   }
 
-  public async getCategory(categoryId: string) {
+  /**
+   * Category details
+   * @param categoryId
+   */
+  @Get('/{categoryId}')
+  public async getCategory(@Path() categoryId: string) {
     const isValidId = CategoriesService.isValid(categoryId);
     if (!isValidId) throw new WrongObjectIdException();
 
@@ -41,7 +58,13 @@ export default class CategoriesService {
     return category;
   }
 
-  public async updateCategory(categoryId: string, updateData: IUpdateCategoryDTO) {
+  /**
+   * Update category
+   * @param categoryId
+   * @param updateData
+   */
+  @Put('/update/{categoryId}')
+  public async updateCategory(@Path() categoryId: string, @Body() updateData: IUpdateCategoryDTO) {
     const isValidId = CategoriesService.isValid(categoryId);
     if (!isValidId) throw new WrongObjectIdException();
 
@@ -57,7 +80,12 @@ export default class CategoriesService {
     return category;
   }
 
-  public async deleteCategory(categoryId: string) {
+  /**
+   * Delete category
+   * @param categoryId
+   */
+  @Delete('/delete/{categoryId}')
+  public async deleteCategory(@Path() categoryId: string) {
     const isValidId = CategoriesService.isValid(categoryId);
     if (!isValidId) throw new WrongObjectIdException();
 
@@ -67,7 +95,15 @@ export default class CategoriesService {
     return true;
   }
 
-  public async uploadCategoryImage(fileName: any, categoryId: string, basePath: string) {
+  /**
+   * Upload category image
+   * @param fileName
+   * @param categoryId
+   * @param basePath
+   * @param image
+   */
+  @Put('/image-upload/{categoryId}')
+  public async uploadCategoryImage(@Request() fileName: any, @Path() categoryId: string, @Request() basePath: string, @UploadedFile() image: Express.Multer.File) {
     const isValidId = CategoriesService.isValid(categoryId);
     if (!isValidId) throw new WrongObjectIdException();
 
@@ -84,9 +120,9 @@ export default class CategoriesService {
     if (!category) throw new NotFoundException();
 
     // unlink old file
-    const image = findCategory.image;
+    const img = findCategory.image;
     const separator = '/';
-    const oldFile = CategoriesService.splitStr(image, separator);
+    const oldFile = CategoriesService.splitStr(img, separator);
     unlink(`public/uploads/${oldFile}`, err => {
       if (err) this.logger.error(err);
       this.logger.info(`Deleted file: ${oldFile}`);

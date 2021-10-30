@@ -14,6 +14,6 @@ export interface ICreateCategoryDTO {
 export interface IUpdateCategoryDTO {
   name: string;
   description: string;
-  featured: boolean;
-  menu: boolean;
+  featured?: boolean;
+  menu?: boolean;
 }
