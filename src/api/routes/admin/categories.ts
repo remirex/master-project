@@ -2,7 +2,7 @@ import { NextFunction, Request, Response, Router } from 'express';
 import { Container } from 'typedi';
 import { Logger } from 'winston';
 
-import CategoriesService from '../../../services/category';
+import CategoriesService from '../../../services/admin/category/category';
 import { ICreateCategoryDTO, IUpdateCategoryDTO } from '../../../interfaces/ICategory';
 import bodyAdminRequest from '../../requests/admin';
 import middleware from '../../middlewares';
@@ -28,7 +28,7 @@ export default (app: Router) => {
     },
   );
 
-  route.get('/categories', async (req: Request, res: Response, next: NextFunction) => {
+  route.get('/all', async (req: Request, res: Response, next: NextFunction) => {
     try {
       const response = await categoryServiceInstance.getAllCategories();
       return res.status(200).json(response);
@@ -54,7 +54,6 @@ export default (app: Router) => {
       try {
         const categoryId = req.params.id;
         const response = await categoryServiceInstance.updateCategory(categoryId, req.body as IUpdateCategoryDTO);
-        console.log(req.body);
         return res.status(200).json(response);
       } catch (err) {
         return next(err);

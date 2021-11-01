@@ -1,7 +1,7 @@
 {
   "entryFile": "src/app.ts",
   "noImplicitAdditionalProperties": "throw-on-extras",
-  "controllerPathGlobs": ["src/services/category.ts"],
+  "controllerPathGlobs": ["src/services/admin/category/category.ts", "src/services/admin/brand/brand.ts"],
   "spec": {
     "outputDirectory": "public",
     "basePath": "/api/v1",

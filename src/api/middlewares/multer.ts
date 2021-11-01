@@ -7,7 +7,7 @@ const diskStorage: StorageEngine = multer.diskStorage({
     if (!file) {
       done(new Error('Upload file error'), null!);
     } else {
-      done(null, resolve(process.cwd(), 'public/uploads'));
+      done(null, resolve(process.cwd(), `public/uploads/${file.fieldname}`));
     }
   },
   filename: (req: any, file: Express.Multer.File, done): void => {

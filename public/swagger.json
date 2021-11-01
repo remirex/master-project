@@ -43,6 +43,30 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"IBrandCreateDTO": {
+				"properties": {
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IBrandUpdateDTO": {
+				"properties": {
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {
@@ -96,7 +120,7 @@
 				}
 			}
 		},
-		"/admin/category/categories": {
+		"/admin/category/all": {
 			"get": {
 				"operationId": "GetAllCategories",
 				"responses": {
@@ -261,6 +285,203 @@
 								},
 								"required": [
 									"image"
+								]
+							}
+						}
+					}
+				}
+			}
+		},
+		"/admin/brand/create": {
+			"post": {
+				"operationId": "CreateBrand",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Brands"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IBrandCreateDTO"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/admin/brand/all": {
+			"get": {
+				"operationId": "GetAllBrands",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Brands"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/admin/brand/{brandId}": {
+			"get": {
+				"operationId": "GetBrand",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Brands"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "brandId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/admin/brand/update/{brandId}": {
+			"put": {
+				"operationId": "UpdateBrand",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Brands"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "brandId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IBrandUpdateDTO"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/admin/brand/delete/{brandId}": {
+			"delete": {
+				"operationId": "DeleteBrand",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "boolean"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Brands"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "brandId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/admin/brand/image-upload/{brandId}": {
+			"put": {
+				"operationId": "UploadBrandImage",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Brands"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "brandId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"multipart/form-data": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"brandLogo": {
+										"type": "string",
+										"format": "binary"
+									}
+								},
+								"required": [
+									"brandLogo"
 								]
 							}
 						}

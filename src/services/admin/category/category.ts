@@ -4,11 +4,11 @@ import slugify from 'slugify';
 import mongoose from 'mongoose';
 import { unlink } from 'fs';
 
-import { ICreateCategoryDTO, IUpdateCategoryDTO } from '../interfaces/ICategory';
-import CategoryWithThatNameAlreadyExistsException from '../api/exceptions/categories/CategoryWithThatNameAlreadyExistsException';
-import CannotCreateRecordException from '../api/exceptions/CannotCreateRecordException';
-import NotFoundException from '../api/exceptions/NotFoundException';
-import WrongObjectIdException from '../api/exceptions/WrongObjectIdException';
+import { ICreateCategoryDTO, IUpdateCategoryDTO } from '../../../interfaces/ICategory';
+import CategoryWithThatNameAlreadyExistsException from '../../../api/exceptions/categories/CategoryWithThatNameAlreadyExistsException';
+import CannotCreateRecordException from '../../../api/exceptions/CannotCreateRecordException';
+import NotFoundException from '../../../api/exceptions/NotFoundException';
+import WrongObjectIdException from '../../../api/exceptions/WrongObjectIdException';
 
 @Tags('Categories')
 @Route('/admin/category')
@@ -22,7 +22,7 @@ export default class CategoriesService {
    */
   @Post('/create')
   public async createCategory(@Body() createData: ICreateCategoryDTO) {
-    const slugOfCategory = slugify(createData.name);
+    const slugOfCategory = slugify(createData.name, { lower: true });
     const category = await this.categoryModel.findOne({ slug: slugOfCategory });
     if (category) throw new CategoryWithThatNameAlreadyExistsException(createData.name);
 
@@ -35,7 +35,7 @@ export default class CategoriesService {
   /**
    * Return all categories from DB
    */
-  @Get('/categories')
+  @Get('/all')
   public async getAllCategories() {
     const categories = await this.categoryModel.find();
     if (!categories) throw new NotFoundException();
@@ -72,6 +72,7 @@ export default class CategoriesService {
       categoryId,
       {
         ...updateData,
+        slug: slugify(updateData.name, { lower: true }),
       },
       { new: true },
     );
@@ -103,7 +104,12 @@ export default class CategoriesService {
    * @param image
    */
   @Put('/image-upload/{categoryId}')
-  public async uploadCategoryImage(@Request() fileName: any, @Path() categoryId: string, @Request() basePath: string, @UploadedFile() image: Express.Multer.File) {
+  public async uploadCategoryImage(
+    @Request() fileName: any,
+    @Path() categoryId: string,
+    @Request() basePath: string,
+    @UploadedFile() image: Express.Multer.File,
+  ) {
     const isValidId = CategoriesService.isValid(categoryId);
     if (!isValidId) throw new WrongObjectIdException();
 

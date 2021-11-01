@@ -45,9 +45,9 @@ export default ({ app }: { app: express.Application }) => {
     swaggerUi.serve,
     swaggerUi.setup(undefined, {
       swaggerOptions: {
-        url: "/swagger.json",
+        url: '/swagger.json',
       },
-    })
+    }),
   );
 
   // Load routes
