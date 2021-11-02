@@ -1,0 +1,502 @@
+{
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"ICreateCategoryDTO": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name",
+					"description"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IUpdateCategoryDTO": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"featured": {
+						"type": "boolean"
+					},
+					"menu": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"name",
+					"description"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IBrandCreateDTO": {
+				"properties": {
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IBrandUpdateDTO": {
+				"properties": {
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {
+			"jwt": {
+				"type": "http",
+				"scheme": "bearer",
+				"description": "JWT Authorization header using the Bearer scheme.\n\nEnter your token in the text input below.\n\n Example: \"12345abcdef\"\n\n Name: Authorization\n\nIn: header"
+			}
+		}
+	},
+	"info": {
+		"title": "master-project",
+		"version": "1.0.0",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {}
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/admin/category/create": {
+			"post": {
+				"operationId": "CreateCategory",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Create new category",
+				"tags": [
+					"Categories"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ICreateCategoryDTO"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/admin/category/all": {
+			"get": {
+				"operationId": "GetAllCategories",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Return all categories from DB",
+				"tags": [
+					"Categories"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/admin/category/{categoryId}": {
+			"get": {
+				"operationId": "GetCategory",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Category details",
+				"tags": [
+					"Categories"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "categoryId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/admin/category/update/{categoryId}": {
+			"put": {
+				"operationId": "UpdateCategory",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Update category",
+				"tags": [
+					"Categories"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "categoryId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IUpdateCategoryDTO"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/admin/category/delete/{categoryId}": {
+			"delete": {
+				"operationId": "DeleteCategory",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "boolean"
+								}
+							}
+						}
+					}
+				},
+				"description": "Delete category",
+				"tags": [
+					"Categories"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "categoryId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/admin/category/image-upload/{categoryId}": {
+			"put": {
+				"operationId": "UploadCategoryImage",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Upload category image",
+				"tags": [
+					"Categories"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "categoryId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"multipart/form-data": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"image": {
+										"type": "string",
+										"format": "binary"
+									}
+								},
+								"required": [
+									"image"
+								]
+							}
+						}
+					}
+				}
+			}
+		},
+		"/admin/brand/create": {
+			"post": {
+				"operationId": "CreateBrand",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Create new brand",
+				"tags": [
+					"Brands"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IBrandCreateDTO"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/admin/brand/all": {
+			"get": {
+				"operationId": "GetAllBrands",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Return all brands from DB",
+				"tags": [
+					"Brands"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/admin/brand/{brandId}": {
+			"get": {
+				"operationId": "GetBrand",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Brand details",
+				"tags": [
+					"Brands"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "brandId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/admin/brand/update/{brandId}": {
+			"put": {
+				"operationId": "UpdateBrand",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Update brand",
+				"tags": [
+					"Brands"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "brandId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IBrandUpdateDTO"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/admin/brand/delete/{brandId}": {
+			"delete": {
+				"operationId": "DeleteBrand",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "boolean"
+								}
+							}
+						}
+					}
+				},
+				"description": "Delete brand",
+				"tags": [
+					"Brands"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "brandId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/admin/brand/image-upload/{brandId}": {
+			"put": {
+				"operationId": "UploadBrandImage",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Upload brand image",
+				"tags": [
+					"Brands"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "brandId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"multipart/form-data": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"logo": {
+										"type": "string",
+										"format": "binary"
+									}
+								},
+								"required": [
+									"logo"
+								]
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/api/v1"
+		}
+	]
+}

@@ -1,8 +1,11 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import swaggerUi from 'swagger-ui-express';
 
 import errorMiddleware from '../api/middlewares/error';
+import config from '../config';
+import routes from '../api';
 
 export default ({ app }: { app: express.Application }) => {
   /**
@@ -31,6 +34,24 @@ export default ({ app }: { app: express.Application }) => {
 
   // Middleware that transforms the raw string of req.body into json
   app.use(bodyParser.json());
+  //app.use(bodyParser.urlencoded({ extended: true }));
+
+  app.use('/images', express.static('public/uploads/images'));
+  app.use(express.static('public'));
+
+  // swagger definition
+  app.use(
+    '/docs',
+    swaggerUi.serve,
+    swaggerUi.setup(undefined, {
+      swaggerOptions: {
+        url: '/swagger.json',
+      },
+    }),
+  );
+
+  // Load routes
+  app.use(config.api.prefix, routes());
 
   // Error handler
   app.use(errorMiddleware);

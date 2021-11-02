@@ -28,4 +28,15 @@ export default {
   mongoHostname: process.env.MONGO_HOSTNAME,
   mongoPort: process.env.MONGO_PORT,
   mongoDatabase: process.env.MONGO_DB,
+
+  /**
+   * API configs
+   */
+  api: {
+    prefix: '/api/v1',
+  },
+
+  adminApi: {
+    prefix: '/api/v1/admin',
+  },
 };
