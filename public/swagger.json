@@ -95,9 +95,7 @@
 						"description": "Ok",
 						"content": {
 							"application/json": {
-								"schema": {
-									"type": "boolean"
-								}
+								"schema": {}
 							}
 						}
 					}
@@ -305,6 +303,7 @@
 						}
 					}
 				},
+				"description": "Create new brand",
 				"tags": [
 					"Brands"
 				],
@@ -335,6 +334,7 @@
 						}
 					}
 				},
+				"description": "Return all brands from DB",
 				"tags": [
 					"Brands"
 				],
@@ -355,6 +355,7 @@
 						}
 					}
 				},
+				"description": "Brand details",
 				"tags": [
 					"Brands"
 				],
@@ -384,6 +385,7 @@
 						}
 					}
 				},
+				"description": "Update brand",
 				"tags": [
 					"Brands"
 				],
@@ -425,6 +427,7 @@
 						}
 					}
 				},
+				"description": "Delete brand",
 				"tags": [
 					"Brands"
 				],
@@ -454,6 +457,7 @@
 						}
 					}
 				},
+				"description": "Upload brand image",
 				"tags": [
 					"Brands"
 				],
@@ -475,13 +479,13 @@
 							"schema": {
 								"type": "object",
 								"properties": {
-									"brandLogo": {
+									"logo": {
 										"type": "string",
 										"format": "binary"
 									}
 								},
 								"required": [
-									"brandLogo"
+									"logo"
 								]
 							}
 						}

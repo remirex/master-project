@@ -36,7 +36,7 @@ export default ({ app }: { app: express.Application }) => {
   app.use(bodyParser.json());
   //app.use(bodyParser.urlencoded({ extended: true }));
 
-  app.use('/images', express.static('public/uploads'));
+  app.use('/images', express.static('public/uploads/images'));
   app.use(express.static('public'));
 
   // swagger definition

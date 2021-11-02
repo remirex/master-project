@@ -77,7 +77,7 @@ export default (app: Router) => {
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const fileName = req.file?.filename;
-        const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`;
+        const basePath = `${req.protocol}://${req.get('host')}/public/uploads/images/`;
         const categoryId = req.params.id;
         const response = await categoryServiceInstance.uploadCategoryImage(fileName, categoryId, basePath, req.file!);
         return res.status(200).json(response);

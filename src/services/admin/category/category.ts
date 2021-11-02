@@ -1,7 +1,6 @@
 import { Path, Body, Get, Post, Tags, Route, Put, Delete, UploadedFile, Request } from 'tsoa';
 import { Inject, Service } from 'typedi';
 import slugify from 'slugify';
-import mongoose from 'mongoose';
 import { unlink } from 'fs';
 
 import { ICreateCategoryDTO, IUpdateCategoryDTO } from '../../../interfaces/ICategory';
@@ -9,6 +8,8 @@ import CategoryWithThatNameAlreadyExistsException from '../../../api/exceptions/
 import CannotCreateRecordException from '../../../api/exceptions/CannotCreateRecordException';
 import NotFoundException from '../../../api/exceptions/NotFoundException';
 import WrongObjectIdException from '../../../api/exceptions/WrongObjectIdException';
+import { isValidObjectId } from '../../../utils/utils';
+import { splitStr } from '../../../utils/utils';
 
 @Tags('Categories')
 @Route('/admin/category')
@@ -22,14 +23,13 @@ export default class CategoriesService {
    */
   @Post('/create')
   public async createCategory(@Body() createData: ICreateCategoryDTO) {
-    const slugOfCategory = slugify(createData.name, { lower: true });
-    const category = await this.categoryModel.findOne({ slug: slugOfCategory });
-    if (category) throw new CategoryWithThatNameAlreadyExistsException(createData.name);
+    const exist = await this.alreadyExist(createData.name, false);
+    if (exist) throw new CategoryWithThatNameAlreadyExistsException(createData.name);
 
     const categoryRecord = await this.categoryModel.create({ ...createData });
     if (!categoryRecord) throw new CannotCreateRecordException();
 
-    return true;
+    return categoryRecord;
   }
 
   /**
@@ -49,7 +49,7 @@ export default class CategoriesService {
    */
   @Get('/{categoryId}')
   public async getCategory(@Path() categoryId: string) {
-    const isValidId = CategoriesService.isValid(categoryId);
+    const isValidId = isValidObjectId(categoryId);
     if (!isValidId) throw new WrongObjectIdException();
 
     const category = await this.categoryModel.findById(categoryId);
@@ -65,8 +65,11 @@ export default class CategoriesService {
    */
   @Put('/update/{categoryId}')
   public async updateCategory(@Path() categoryId: string, @Body() updateData: IUpdateCategoryDTO) {
-    const isValidId = CategoriesService.isValid(categoryId);
+    const isValidId = isValidObjectId(categoryId);
     if (!isValidId) throw new WrongObjectIdException();
+
+    const exist = await this.alreadyExist(updateData.name, true);
+    if (exist) throw new CategoryWithThatNameAlreadyExistsException(updateData.name);
 
     const category = await this.categoryModel.findByIdAndUpdate(
       categoryId,
@@ -87,7 +90,7 @@ export default class CategoriesService {
    */
   @Delete('/delete/{categoryId}')
   public async deleteCategory(@Path() categoryId: string) {
-    const isValidId = CategoriesService.isValid(categoryId);
+    const isValidId = isValidObjectId(categoryId);
     if (!isValidId) throw new WrongObjectIdException();
 
     const category = await this.categoryModel.findByIdAndRemove(categoryId);
@@ -110,7 +113,7 @@ export default class CategoriesService {
     @Request() basePath: string,
     @UploadedFile() image: Express.Multer.File,
   ) {
-    const isValidId = CategoriesService.isValid(categoryId);
+    const isValidId = isValidObjectId(categoryId);
     if (!isValidId) throw new WrongObjectIdException();
 
     const findCategory = await this.categoryModel.findById(categoryId);
@@ -128,8 +131,8 @@ export default class CategoriesService {
     // unlink old file
     const img = findCategory.image;
     const separator = '/';
-    const oldFile = CategoriesService.splitStr(img, separator);
-    unlink(`public/uploads/${oldFile}`, err => {
+    const oldFile = splitStr(img, separator);
+    unlink(`public/uploads/images/${oldFile}`, err => {
       if (err) this.logger.error(err);
       this.logger.info(`Deleted file: ${oldFile}`);
     });
@@ -138,14 +141,9 @@ export default class CategoriesService {
   }
 
   // helpers
-  private static isValid(id: string) {
-    return mongoose.Types.ObjectId.isValid(id);
-  }
-
-  private static splitStr(str, separator) {
-    // Function to split string
-    const string = str.split(separator);
-
-    return string[string.length - 1];
+  private async alreadyExist(name: string, isUpdate: boolean) {
+    const slug = slugify(name, { lower: true });
+    const find = await this.categoryModel.findOne({ slug: slug });
+    return find && !isUpdate;
   }
 }

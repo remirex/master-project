@@ -2,7 +2,7 @@ export interface IBrand {
   id: string;
   name: string;
   slug: string;
-  brandLogo: string;
+  logo: string;
 }
 
 export interface IBrandCreateDTO {

@@ -12,7 +12,7 @@ const brandSchema = new mongoose.Schema(
     slug: {
       type: String,
     },
-    brandLogo: {
+    logo: {
       type: String,
       default: '',
     },

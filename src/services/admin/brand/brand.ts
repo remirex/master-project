@@ -17,6 +17,10 @@ import { splitStr } from '../../../utils/utils';
 export default class BrandService {
   constructor(@Inject('brandModel') private brandModel: Models.BrandModel, @Inject('logger') private logger) {}
 
+  /**
+   * Create new brand
+   * @param createData
+   */
   @Post('/create')
   public async createBrand(@Body() createData: IBrandCreateDTO) {
     const exist = await this.alreadyExist(createData.name, false);
@@ -28,6 +32,9 @@ export default class BrandService {
     return brandRecord;
   }
 
+  /**
+   * Return all brands from DB
+   */
   @Get('/all')
   public async getAllBrands() {
     const brands = await this.brandModel.find();
@@ -36,6 +43,10 @@ export default class BrandService {
     return brands;
   }
 
+  /**
+   * Brand details
+   * @param brandId
+   */
   @Get('/{brandId}')
   public async getBrand(@Path() brandId: string) {
     const isValidId = isValidObjectId(brandId);
@@ -47,6 +58,11 @@ export default class BrandService {
     return brand;
   }
 
+  /**
+   * Update brand
+   * @param brandId
+   * @param updateData
+   */
   @Put('/update/{brandId}')
   public async updateBrand(@Path() brandId: string, @Body() updateData: IBrandUpdateDTO) {
     const isValidId = isValidObjectId(brandId);
@@ -68,6 +84,10 @@ export default class BrandService {
     return brand;
   }
 
+  /**
+   * Delete brand
+   * @param brandId
+   */
   @Delete('/delete/{brandId}')
   public async deleteBrand(@Path() brandId: string) {
     const isValidId = isValidObjectId(brandId);
@@ -79,12 +99,19 @@ export default class BrandService {
     return true;
   }
 
+  /**
+   * Upload brand image
+   * @param fileName
+   * @param brandId
+   * @param basePath
+   * @param logo
+   */
   @Put('/image-upload/{brandId}')
   public async uploadBrandImage(
     @Request() fileName: any,
     @Path() brandId: string,
     @Request() basePath: string,
-    @UploadedFile() brandLogo: Express.Multer.File,
+    @UploadedFile() logo: Express.Multer.File,
   ) {
     const isValidId = isValidObjectId(brandId);
     if (!isValidId) throw new WrongObjectIdException();
@@ -95,17 +122,17 @@ export default class BrandService {
     const brand = await this.brandModel.findByIdAndUpdate(
       brandId,
       {
-        brandLogo: basePath + '' + fileName,
+        logo: basePath + '' + fileName,
       },
       { new: true },
     );
     if (!brand) throw new NotFoundException();
 
     // unlink old file
-    const img = findBrand.brandLogo;
+    const img = findBrand.logo;
     const separator = '/';
     const oldFile = splitStr(img, separator);
-    unlink(`public/uploads/brandLogo/${oldFile}`, err => {
+    unlink(`public/uploads/images/${oldFile}`, err => {
       if (err) this.logger.error(err);
       this.logger.info(`Deleted file: ${oldFile}`);
     });

@@ -68,11 +68,11 @@ export default (app: Router) => {
 
   route.put(
     '/image-upload/:id',
-    middleware.fileUpload.single('brandLogo'),
+    middleware.fileUpload.single('logo'),
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const fileName = req.file?.filename;
-        const basePath = `${req.protocol}://${req.get('host')}/public/uploads/${req.file?.fieldname}/`;
+        const basePath = `${req.protocol}://${req.get('host')}/public/uploads/images/`;
         const brandId = req.params.id;
         const response = await brandServiceInstance.uploadBrandImage(fileName, brandId, basePath, req.file!);
         return res.status(200).json(response);
