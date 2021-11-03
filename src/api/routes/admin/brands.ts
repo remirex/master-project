@@ -53,7 +53,7 @@ export default (app: Router) => {
       } catch (err) {
         return next(err);
       }
-    }
+    },
   );
 
   route.delete('/delete/:id', async (req: Request, res: Response, next: NextFunction) => {
@@ -79,6 +79,6 @@ export default (app: Router) => {
       } catch (err) {
         return next(err);
       }
-    }
+    },
   );
 };

@@ -1,5 +1,5 @@
 export interface SearchBody {
   query: {
-    match: { 'data.note': string }
-  }
+    match: { 'data.note': string };
+  };
 }
