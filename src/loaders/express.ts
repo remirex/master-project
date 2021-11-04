@@ -33,8 +33,8 @@ export default ({ app }: { app: express.Application }) => {
   app.use(require('method-override')());
 
   // Middleware that transforms the raw string of req.body into json
+  app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
-  //app.use(bodyParser.urlencoded({ extended: true }));
 
   app.use('/images', express.static('public/uploads/images'));
   app.use(express.static('public'));
