@@ -1,6 +1,6 @@
 export interface PaginationResponse {
-  next: object;
-  previous: object;
+  next: Record<string, unknown>;
+  previous: Record<string, unknown>;
   data: string[];
   totalPages: number;
   currentPage: number;

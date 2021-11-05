@@ -14,14 +14,14 @@ export default class PaginateService {
       result.next = {
         page: page + 1,
         limit: limit,
-      }
+      };
     }
 
     if (startIndex > 0) {
       result.previous = {
         page: page - 1,
         limit: limit,
-      }
+      };
     }
 
     result.totalPages = Math.ceil(countDocs / limit);

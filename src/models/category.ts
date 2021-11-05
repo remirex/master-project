@@ -33,15 +33,14 @@ const categorySchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-    toJSON: {
-      virtuals: true,
-      transform(doc, ret) {
-        delete ret.__v;
-        delete ret._id;
-      },
-    },
   },
 );
+
+categorySchema.method('toJSON', function () {
+  const { __v, _id, ...object } = this.toObject();
+  object.id = _id;
+  return object;
+});
 
 categorySchema.pre('save', async function (done) {
   const slugCatName = slugify(this.get('name'), { lower: true });

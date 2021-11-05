@@ -136,7 +136,28 @@
 					"Categories"
 				],
 				"security": [],
-				"parameters": []
+				"parameters": [
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"default": 1,
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"default": 20,
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
 			}
 		},
 		"/admin/category/{categoryId}": {
@@ -325,8 +346,13 @@
 			"get": {
 				"operationId": "GetAllBrands",
 				"responses": {
-					"204": {
-						"description": "No content"
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
 					}
 				},
 				"description": "Return all brands from DB",
@@ -338,8 +364,9 @@
 					{
 						"in": "query",
 						"name": "page",
-						"required": true,
+						"required": false,
 						"schema": {
+							"default": 1,
 							"format": "double",
 							"type": "number"
 						}
@@ -347,8 +374,9 @@
 					{
 						"in": "query",
 						"name": "limit",
-						"required": true,
+						"required": false,
 						"schema": {
+							"default": 20,
 							"format": "double",
 							"type": "number"
 						}

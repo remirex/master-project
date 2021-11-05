@@ -19,7 +19,7 @@ export default class BrandService {
   constructor(
     @Inject('brandModel') private brandModel: Models.BrandModel,
     @Inject('logger') private logger,
-    @Inject('pagination') private pagination
+    @Inject('pagination') private pagination,
   ) {}
 
   /**
@@ -41,7 +41,7 @@ export default class BrandService {
    * Return all brands from DB
    */
   @Get('/all')
-  public async getAllBrands(@Query() page: number, @Query() limit: number) {
+  public async getAllBrands(@Query() page = 1, @Query() limit = 20) {
     return await this.pagination.paginate(this.brandModel, page, limit);
   }
 
