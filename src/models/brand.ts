@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
-import { IBrand } from '../interfaces/IBrand';
 import slugify from 'slugify';
+
+import { IBrand } from '../interfaces/IBrand';
 
 const brandSchema = new mongoose.Schema(
   {
@@ -19,15 +20,14 @@ const brandSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-    toJSON: {
-      virtuals: true,
-      transform(doc, ret) {
-        delete ret.__v;
-        delete ret._id;
-      },
-    },
   },
 );
+
+brandSchema.method('toJSON', function () {
+  const { __v, _id, ...object } = this.toObject();
+  object.id = _id;
+  return object;
+});
 
 brandSchema.pre('save', async function (done) {
   const slugBrandName = slugify(this.get('name'), { lower: true });

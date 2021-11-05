@@ -10,12 +10,17 @@ import { isValidObjectId } from '../../../utils/utils';
 import WrongObjectIdException from '../../../api/exceptions/WrongObjectIdException';
 import { IBrandUpdateDTO } from '../../../interfaces/IBrand';
 import { splitStr } from '../../../utils/utils';
+import { Query } from 'tsoa';
 
 @Tags('Brands')
 @Route('/admin/brand')
 @Service()
 export default class BrandService {
-  constructor(@Inject('brandModel') private brandModel: Models.BrandModel, @Inject('logger') private logger) {}
+  constructor(
+    @Inject('brandModel') private brandModel: Models.BrandModel,
+    @Inject('logger') private logger,
+    @Inject('pagination') private pagination
+  ) {}
 
   /**
    * Create new brand
@@ -36,11 +41,8 @@ export default class BrandService {
    * Return all brands from DB
    */
   @Get('/all')
-  public async getAllBrands() {
-    const brands = await this.brandModel.find();
-    if (!brands) throw new NotFoundException();
-
-    return brands;
+  public async getAllBrands(@Query() page: number, @Query() limit: number) {
+    return await this.pagination.paginate(this.brandModel, page, limit);
   }
 
   /**

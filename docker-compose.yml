@@ -25,10 +25,10 @@ services:
       - MONGO_PORT=$MONGO_PORT
       - MONGO_DB=$MONGO_DB
     depends_on:
-      elasticsearch:
-        condition: service_healthy
-      mongo:
-        condition: service_healthy
+      - elasticsearch
+      - mongo
+#      mongo:
+#        condition: service_healthy
 
   mongo:
     image: mongo:4

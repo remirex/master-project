@@ -19,6 +19,7 @@ async function brandDbSeed() {
         name: faker.lorem.word(6),
         slug: faker.lorem.slug(2),
         logo: faker.image.imageUrl(),
+        createdAt: faker.date.recent(),
       };
       brandData.push(newBrand);
     }

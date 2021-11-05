@@ -22,6 +22,7 @@ async function categoryDbSeed() {
         featured: false,
         menu: true,
         description: faker.lorem.text(20),
+        createdAt: faker.date.recent(),
       };
       categoryData.push(newCategory);
     }
