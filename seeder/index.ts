@@ -1,7 +1,5 @@
 import { brandSeed } from './brand/seed';
 import { categorySeed } from './category/seed';
+import { productSeed } from './product/seed';
 
-export default {
-  brandSeed,
-  categorySeed,
-};
+export { productSeed, brandSeed, categorySeed }
