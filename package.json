@@ -47,6 +47,7 @@
     "joi": "^17.4.2",
     "method-override": "^3.0.0",
     "mongoose": "^5.12.9",
+    "mongoose-simple-pagination": "^1.0.0",
     "multer": "^1.4.3",
     "reflect-metadata": "^0.1.13",
     "slugify": "^1.6.1",

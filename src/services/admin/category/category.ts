@@ -10,12 +10,17 @@ import NotFoundException from '../../../api/exceptions/NotFoundException';
 import WrongObjectIdException from '../../../api/exceptions/WrongObjectIdException';
 import { isValidObjectId } from '../../../utils/utils';
 import { splitStr } from '../../../utils/utils';
+import { Query } from 'tsoa';
 
 @Tags('Categories')
 @Route('/admin/category')
 @Service()
 export default class CategoriesService {
-  constructor(@Inject('categoryModel') private categoryModel: Models.CategoryModel, @Inject('logger') private logger) {}
+  constructor(
+    @Inject('categoryModel') private categoryModel: Models.CategoryModel,
+    @Inject('logger') private logger,
+    @Inject('pagination') private pagination,
+  ) {}
 
   /**
    * Create new category
@@ -36,11 +41,8 @@ export default class CategoriesService {
    * Return all categories from DB
    */
   @Get('/all')
-  public async getAllCategories() {
-    const categories = await this.categoryModel.find();
-    if (!categories) throw new NotFoundException();
-
-    return categories;
+  public async getAllCategories(@Query() page = 1, @Query() limit = 20) {
+    return await this.pagination.paginate(this.categoryModel, page, limit);
   }
 
   /**

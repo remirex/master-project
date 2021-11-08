@@ -25,7 +25,9 @@ export default (app: Router) => {
 
   route.get('/all', async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const response = await brandServiceInstance.getAllBrands();
+      const page = parseInt(<string>req.query.page);
+      const limit = parseInt(<string>req.query.limit);
+      const response = await brandServiceInstance.getAllBrands(page, limit);
       return res.status(200).json(response);
     } catch (err) {
       return next(err);

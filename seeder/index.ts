@@ -1,9 +1,5 @@
 import { brandSeed } from './brand/seed';
 import { categorySeed } from './category/seed';
-import { elasticSeed } from './brand/elastic';
+import { productSeed } from './product/seed';
 
-export default {
-  brandSeed,
-  categorySeed,
-  elasticSeed,
-};
+export { productSeed, brandSeed, categorySeed }
