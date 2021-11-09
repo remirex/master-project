@@ -1,7 +1,8 @@
-import { Path, Body, Get, Post, Tags, Route, Put, Delete, UploadedFile, Request } from 'tsoa';
+import { Path, Body, Get, Post, Tags, Route, Put, Delete, UploadedFile, Request, Query } from 'tsoa';
 import { Inject, Service } from 'typedi';
 import slugify from 'slugify';
 import { unlink } from 'fs';
+
 import { IBrandCreateDTO } from '../../../interfaces/IBrand';
 import BrandWithThatNameAlreadyExistsException from '../../../api/exceptions/brands/BrandWithThatNameAlreadyExistsException';
 import CannotCreateRecordException from '../../../api/exceptions/CannotCreateRecordException';
@@ -10,7 +11,6 @@ import { isValidObjectId } from '../../../utils/utils';
 import WrongObjectIdException from '../../../api/exceptions/WrongObjectIdException';
 import { IBrandUpdateDTO } from '../../../interfaces/IBrand';
 import { splitStr } from '../../../utils/utils';
-import { Query } from 'tsoa';
 
 @Tags('Brands')
 @Route('/admin/brand')

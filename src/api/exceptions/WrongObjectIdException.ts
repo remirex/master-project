@@ -1,8 +1,8 @@
 import HttpException from './HttpException';
 
 class WrongObjectIdException extends HttpException {
-  constructor() {
-    super(400, 'Id is not valid.');
+  constructor(message?: string) {
+    super(400, message ? message : 'Id is not valid.');
   }
 }
 

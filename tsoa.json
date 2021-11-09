@@ -4,7 +4,7 @@
   "controllerPathGlobs": [
     "src/services/admin/category/category.ts",
     "src/services/admin/brand/brand.ts",
-    "src/services/search.ts"
+    "src/services/admin/product/product.ts"
   ],
   "spec": {
     "outputDirectory": "public",
