@@ -57,8 +57,7 @@ export default class ProductService {
     const isValidId = isValidObjectId(productId);
     if (!isValidId) throw new WrongObjectIdException('Product id is not valid');
 
-    const product = await this.productModel.findById(productId)
-      .populate(['brand', 'category'])
+    const product = await this.productModel.findById(productId).populate(['brand', 'category']);
     if (!product) throw new NotFoundException();
 
     return product;

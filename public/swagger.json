@@ -101,6 +101,32 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"IAttributeCreateDTO": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"code": {
+						"type": "string"
+					},
+					"frontend_type": {
+						"type": "string"
+					},
+					"is_filterable": {
+						"type": "boolean"
+					},
+					"is_required": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"name",
+					"code",
+					"frontend_type"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {
@@ -667,6 +693,36 @@
 						}
 					}
 				]
+			}
+		},
+		"/admin/attribute/create": {
+			"post": {
+				"operationId": "CreateAttribute",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Attributes"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IAttributeCreateDTO"
+							}
+						}
+					}
+				}
 			}
 		}
 	},
