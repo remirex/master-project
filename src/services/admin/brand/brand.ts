@@ -42,7 +42,7 @@ export default class BrandService {
    */
   @Get('/all')
   public async getAllBrands(@Query() page = 1, @Query() limit = 20) {
-    return await this.pagination.paginate(this.brandModel, page, limit);
+    return await this.pagination.paginate(this.brandModel, page, limit, false, []);
   }
 
   /**

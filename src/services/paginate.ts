@@ -6,8 +6,8 @@ export default class PaginateService {
     model: Model<any>,
     page: number,
     limit: number,
-    withRelation: false,
-    relationArray?: string[],
+    withRelation: boolean,
+    relationArray: string[],
   ) {
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;

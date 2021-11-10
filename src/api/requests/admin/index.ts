@@ -4,6 +4,7 @@ import { createBrandSchema } from './brands/create';
 import { updateBrandSchema } from './brands/update';
 import { createProductSchema } from './products/create';
 import { createAttributeSchema } from './attribute/create';
+import { updateAttributeSchema } from './attribute/update';
 
 export default {
   createCategorySchema,
@@ -12,4 +13,5 @@ export default {
   updateBrandSchema,
   createProductSchema,
   createAttributeSchema,
+  updateAttributeSchema,
 };

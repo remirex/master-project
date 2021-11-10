@@ -127,6 +127,53 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"IAttributeUpdateDTO": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"code": {
+						"type": "string"
+					},
+					"frontend_type": {
+						"type": "string"
+					},
+					"is_filterable": {
+						"type": "boolean"
+					},
+					"is_required": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"name",
+					"code",
+					"frontend_type"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IAttributeValueCreateDTO": {
+				"properties": {
+					"value": {
+						"type": "string"
+					},
+					"price": {
+						"type": "number",
+						"format": "double"
+					},
+					"attribute": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"value",
+					"price",
+					"attribute"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {
@@ -708,6 +755,7 @@
 						}
 					}
 				},
+				"description": "Create new attribute",
 				"tags": [
 					"Attributes"
 				],
@@ -719,6 +767,180 @@
 						"application/json": {
 							"schema": {
 								"$ref": "#/components/schemas/IAttributeCreateDTO"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/admin/attribute/all": {
+			"get": {
+				"operationId": "GetAllAttributes",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Retrieve all attributes from DB",
+				"tags": [
+					"Attributes"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"default": 1,
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"default": 20,
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/admin/attribute/{attributeId}": {
+			"get": {
+				"operationId": "GetAttribute",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Attribute details",
+				"tags": [
+					"Attributes"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "attributeId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/admin/attribute/update/{attributeId}": {
+			"put": {
+				"operationId": "UpdateAttribute",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Update attribute",
+				"tags": [
+					"Attributes"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "attributeId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IAttributeUpdateDTO"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/admin/attribute/delete/{attributeId}": {
+			"delete": {
+				"operationId": "DeleteAttribute",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "boolean"
+								}
+							}
+						}
+					}
+				},
+				"description": "Delete attribute",
+				"tags": [
+					"Attributes"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "attributeId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/admin/attribute-value/create": {
+			"post": {
+				"operationId": "CreateAttributeValue",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Attribute Values"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IAttributeValueCreateDTO"
 							}
 						}
 					}

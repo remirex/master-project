@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { IAttributeValue } from '../interfaces/IAttributeValue';
 
 const attributeValueSchema = new mongoose.Schema(
   {
@@ -25,3 +26,5 @@ attributeValueSchema.method('toJSON', function () {
   object.id = _id;
   return object;
 });
+
+export default mongoose.model<IAttributeValue & mongoose.Document>('AttributeValue', attributeValueSchema);

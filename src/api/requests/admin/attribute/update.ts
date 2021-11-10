@@ -3,7 +3,7 @@ import joi from 'joi';
 
 import middleware from '../../../middlewares';
 
-export function createAttributeSchema(req: Request, res: Response, next: NextFunction) {
+export function updateAttributeSchema(req: Request, res: Response, next: NextFunction) {
   const schema = joi.object({
     name: joi.string().required(),
     code: joi.string().required(),

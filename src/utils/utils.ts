@@ -17,3 +17,12 @@ export async function alreadyExist(model: mongoose.Model<any>, name: string, isU
   const find = await model.findOne({ slug: slug });
   return find && !isUpdate;
 }
+
+export async function isExist(model: mongoose.Model<any>, isUpdate: boolean, isSlug: boolean, search_field: string, search_value: any) {
+  const queryObj = {};
+  if (search_field !== '' && search_value !== '') {
+    queryObj[search_field] = isSlug ? slugify(search_value, { lower: true }) : search_value;
+  }
+  const find = await model.findOne(queryObj);
+  return find && !isUpdate;
+}

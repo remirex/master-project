@@ -5,7 +5,8 @@
     "src/services/admin/category/category.ts",
     "src/services/admin/brand/brand.ts",
     "src/services/admin/product/product.ts",
-    "src/services/admin/attribute/attribute.ts"
+    "src/services/admin/attribute/attribute.ts",
+    "src/services/admin/attributeValue/attributeValue.ts"
   ],
   "spec": {
     "outputDirectory": "public",

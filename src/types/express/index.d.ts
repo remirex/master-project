@@ -4,6 +4,7 @@ import { IBrand } from '../../interfaces/IBrand';
 import { ICategory } from '../../interfaces/ICategory';
 import { IProduct } from '../../interfaces/IProduct';
 import { IAttribute } from '../../interfaces/IAttribute';
+import { IAttributeValue } from '../../interfaces/IAttributeValue';
 
 declare global {
   namespace Models {
@@ -12,5 +13,6 @@ declare global {
     export type CategoryModel = Model<ICategory & Document>;
     export type ProductModel = Model<IProduct & Document>;
     export type AttributeModel = Model<IAttribute & Document>;
+    export type AttributeValueModel = Model<IAttributeValue & Document>;
   }
 }

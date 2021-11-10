@@ -7,7 +7,6 @@ async function populateProducts() {
   try {
     const client = await mongooseLoader();
     const collection = client.collection('products');
-    const brand = client.collection('brands');
 
     // The drop() command destroys all data from a collection.
     // Make sure you run it against proper database and collection.
