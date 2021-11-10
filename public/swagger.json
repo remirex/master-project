@@ -169,7 +169,26 @@
 				},
 				"required": [
 					"value",
-					"price",
+					"attribute"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IAttributeValueUpdateDTO": {
+				"properties": {
+					"value": {
+						"type": "string"
+					},
+					"price": {
+						"type": "number",
+						"format": "double"
+					},
+					"attribute": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"value",
 					"attribute"
 				],
 				"type": "object",
@@ -930,6 +949,7 @@
 						}
 					}
 				},
+				"description": "Create a new attribute value",
 				"tags": [
 					"Attribute Values"
 				],
@@ -945,6 +965,148 @@
 						}
 					}
 				}
+			}
+		},
+		"/admin/attribute-value/all": {
+			"get": {
+				"operationId": "GetAllAttributeValues",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Retrieve all attribute value from DB",
+				"tags": [
+					"Attribute Values"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"default": 1,
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"default": 20,
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/admin/attribute-value/{attributeValueId}": {
+			"get": {
+				"operationId": "GetAttributeValue",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Attribute value details",
+				"tags": [
+					"Attribute Values"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "attributeValueId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/admin/attribute-value/update/{attributeValueId}": {
+			"put": {
+				"operationId": "UpdateAttributeValue",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Update attribute value",
+				"tags": [
+					"Attribute Values"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "attributeValueId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IAttributeValueUpdateDTO"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/admin/attribute-value/delete/{attributeValueId}": {
+			"delete": {
+				"operationId": "DeleteAttributeValue",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Delete attribute value",
+				"tags": [
+					"Attribute Values"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "attributeValueId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		}
 	},

@@ -5,6 +5,12 @@ export interface IAttributeValue {
 
 export interface IAttributeValueCreateDTO {
   value: string;
-  price: number;
+  price?: number;
+  attribute: string;
+}
+
+export interface IAttributeValueUpdateDTO {
+  value: string;
+  price?: number;
   attribute: string;
 }

@@ -5,6 +5,8 @@ import { updateBrandSchema } from './brands/update';
 import { createProductSchema } from './products/create';
 import { createAttributeSchema } from './attribute/create';
 import { updateAttributeSchema } from './attribute/update';
+import { createAttributeValueSchema } from './attributeValue/create';
+import { updateAttributeValueSchema } from './attributeValue/update';
 
 export default {
   createCategorySchema,
@@ -14,4 +16,6 @@ export default {
   createProductSchema,
   createAttributeSchema,
   updateAttributeSchema,
+  createAttributeValueSchema,
+  updateAttributeValueSchema,
 };
